@@ -16,14 +16,25 @@ namespace server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(string searchParameter = "", int page = 0)
+        public async Task<IActionResult> GetProducts(string searchParameter = "", int page = 0)
         {   
-            var pageSize = 5;
+            var pageSize = 6;
             if (searchParameter != string.Empty) 
             {
-                return await _context.Product.Where(product => product.Name.Contains(searchParameter)).Skip(pageSize * page).Take(pageSize).ToListAsync();
+                return Ok(new { 
+                    data =  await  _context.Product.Where(product => product.Name
+                    .Contains(searchParameter))
+                    .Skip(pageSize * page)
+                    .Take(pageSize).ToListAsync(),
+                    totalCount = _context.Product.Where(product => product.Name
+                    .Contains(searchParameter)).Count()
+                });
             }
-            return await _context.Product.Skip(pageSize * page).Take(pageSize).ToListAsync();
+    
+            return Ok(new {
+                data = await _context.Product.Skip(pageSize * page).Take(pageSize).ToListAsync(),
+                totalCount = _context.Product.Count()
+            });
         }
 
         [HttpGet("{id}")]

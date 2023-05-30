@@ -5,3 +5,9 @@ export interface IProduct {
     productId: number,
     storage: number,
 }
+
+
+export interface ProductResponse {
+    data: IProduct[],
+    totalCount: number,
+}

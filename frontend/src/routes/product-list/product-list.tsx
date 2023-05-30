@@ -1,24 +1,26 @@
 import { useEffect, useState } from 'react';
 import './product-list.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { IProduct } from '../../types/types';
+import { IProduct, ProductResponse } from '../../types/types';
 import { fetchProducts } from '../../services/ApiCalls';
 import ProductItem from '../../components/common/product-item';
+import Search from '../../components/common/Search';
 
 const ProductList = () => {
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const navigate = useNavigate();
+  const [{data, totalCount }, setProducts] = useState<ProductResponse>({
+    data: [],
+    totalCount: 1
+  });
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState(Number(searchParams.get("page")) || 0);
-  console.log(searchParams.get("page"));
 
   useEffect(() => {
     fetchingProducts();
-  }, [page]);
+  }, [page, searchParams.get("searchParameter")]);
 
   const fetchingProducts = async ( ) => {
-    const data = await fetchProducts(page);
-    setProducts(data);  
+    const res = await fetchProducts(page, searchParams.get("searchParameter")  || "");
+    setProducts(res);  
   };
 
   const next = (pageDirection: number) => {
@@ -28,14 +30,17 @@ const ProductList = () => {
 
   return (
     <section>
-      <div>search</div>
-      <div>filter</div>
+      <div className='products-details'>
+        <Search />
+        <div>filter</div>
+        <p>{totalCount} products</p>
+      </div>
       <section className='products-container'>
-      {products.map(product => <ProductItem key={product.productId} product={product}/>)}
+      {data.map(item => <ProductItem key={item.productId} product={item}/>)}
       </section>
       <div className='pagination-container '>
         <button disabled={page == 0} onClick={() => next(-1)}>prev</button>
-        <button onClick={() => next(1)}>next</button>
+        <button disabled={(page + 1) * 6 > totalCount} onClick={() => next(1)}>next</button>
       </div>
     </section>
   );

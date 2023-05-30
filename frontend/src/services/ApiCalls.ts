@@ -1,8 +1,13 @@
 import axios from "axios"
-import { IProduct } from "../types/types";
+import { IProduct, ProductResponse } from "../types/types";
 
-export const fetchProducts : (page: number) => Promise<IProduct[]> = async (page: number) => {
-    const response = await axios.get(`http://localhost:5163/api/Products?page=${page}`);
+export const fetchProducts : (page: number, searchParameter: string) => Promise<ProductResponse> = async (page: number, searchParameter = "")  => {
+  
+    if (searchParameter == "") {
+        const response = await axios.get(`http://localhost:5163/api/Products?page=${page}`);
+        return response.data;
+    }
+    const response = await axios.get(`http://localhost:5163/api/Products?searchParameter=${searchParameter}&page=${page}`);
     return response.data;
 }
 
