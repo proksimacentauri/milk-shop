@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.Models;
@@ -21,13 +16,14 @@ namespace server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(string searchParameter = "")
-        {
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(string searchParameter = "", int page = 0)
+        {   
+            var pageSize = 5;
             if (searchParameter != string.Empty) 
             {
-                return await _context.Product.Where(product => product.Name.Contains(searchParameter)).ToListAsync();
+                return await _context.Product.Where(product => product.Name.Contains(searchParameter)).Skip(pageSize * page).Take(pageSize).ToListAsync();
             }
-            return await _context.Product.ToListAsync();
+            return await _context.Product.Skip(pageSize * page).Take(pageSize).ToListAsync();
         }
 
         [HttpGet("{id}")]

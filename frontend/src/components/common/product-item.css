@@ -1,0 +1,36 @@
+.product-item--image {
+    width: 50%;
+}
+
+.product-item {
+    border: 2px solid rgba(0,0,0,.205);
+    border-radius: 6px;
+    width: 300px;
+    background-color: white;
+    padding: 5px;
+}
+
+.product-item--details {
+ margin: 0 10px;
+}
+
+.product--image-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.product-item--description {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 690px) {
+  .product-item {
+    border: 2px solid rgba(0,0,0,.205);
+    border-radius: 6px;
+    width: 250px;
+    background-color: white;
+    padding: 5px;
+  }
+}

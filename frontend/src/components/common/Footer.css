@@ -1,0 +1,31 @@
+.main-footer {
+    position: relative;
+    bottom: 0; 
+    height: 60px;
+    background-color: white;
+    color:#d689a4;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .footer__icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    filter: invert(64%) sepia(34%) saturate(416%) hue-rotate(288deg) brightness(90%) contrast(92%);;
+  }
+  
+  .footer__icons--linkedin:hover {
+    filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(200deg) brightness(118%) contrast(119%);
+    
+  }
+  
+  .footer__icons--github:hover {
+    filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(200deg) brightness(118%) contrast(119%);
+  
+  }
+  
+  .footer__icons--mail:hover {
+    filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(200deg) brightness(118%) contrast(119%);
+  
+  }
