@@ -25,7 +25,8 @@ const ProductList = () => {
 
   const next = (pageDirection: number) => {
     setPage(page + pageDirection);
-    setSearchParams({"page": (page + pageDirection).toString()})
+    searchParams.set("page", (page + pageDirection).toString());
+    setSearchParams(searchParams)
   };
 
   return (
