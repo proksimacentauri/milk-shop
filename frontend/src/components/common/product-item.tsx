@@ -7,8 +7,6 @@ export interface IProductItemProps {
     product: IProduct
 }
 
-
-
 const ProductItem = ({ product: { name, type, productId, storage } } : IProductItemProps) => {
   const navigate = useNavigate();
   return (

@@ -64,6 +64,30 @@ namespace server.Controllers
             return product;
         }
 
+        
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> OrderProduct(string id, int quantity)
+        {
+            var product = await _context.Product.FindAsync(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            if (quantity > product.Storage || quantity == 0) 
+            {
+                return BadRequest();
+            }
+            
+            product.Storage = product.Storage - quantity;
+            _context.Entry(product).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+           
+            return Ok(product);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(string id, Product product)
         {

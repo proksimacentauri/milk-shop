@@ -6,11 +6,14 @@ const search = () => {
   const [searchValue, setSearchValue] = useState(searchParams.get("searchParameter") || "");
   
   const handleChange = (event: KeyboardEvent<HTMLInputElement> ) => {
-    const target = event.target as HTMLInputElement;
     if (event.key == "Enter")
     {
-      searchParams.set("searchParameter", (target.value).toString());
-      setSearchParams(searchParams)
+        if (searchValue == "") {
+            searchParams.delete("searchParameter");
+        } else {
+            searchParams.set("searchParameter", (searchValue).toString());
+        }
+        setSearchParams(searchParams)
     }
   }
 

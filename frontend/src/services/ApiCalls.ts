@@ -17,3 +17,8 @@ export const fetchProduct : (id : string) => Promise<IProduct> = async (id : str
     const response = await axios.get(`http://localhost:5163/api/Products/${id}`);
     return response.data;
 }
+
+export const orderProduct : (id : string, quantity: number) => Promise<IProduct> = async (id : string, quantity: number) => {
+    const response = await axios.patch(`http://localhost:5163/api/Products/${id}?quantity=${quantity}`);
+    return response.data;
+}
