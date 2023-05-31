@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using server.DTOs;
 using server.Models;
 
 namespace server.Controllers
@@ -16,26 +17,39 @@ namespace server.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts(string searchParameter = "", int page = 0)
+        public async Task<IActionResult> GetProducts(string searchParameter = "", string filter = "", int page = 0)
         {   
             var pageSize = 6;
+            if (filter != string.Empty) 
+            {
+                return Ok(new ProductListResponse{ 
+                    Data =  await  _context.Product.Where(product => product.Type == filter)
+                    .Where(product => product.Name.Contains(searchParameter))
+                    .Skip(pageSize * page)
+                    .Take(pageSize).ToListAsync(),
+                    TotalCount = _context.Product.Where(product => product.Type == filter)
+                    .Where(product => product.Name.Contains(filter)).Count()
+                });
+            }
+
             if (searchParameter != string.Empty) 
             {
-                return Ok(new { 
-                    data =  await  _context.Product.Where(product => product.Name
+                return Ok(new ProductListResponse { 
+                    Data =  await  _context.Product.Where(product => product.Name
                     .Contains(searchParameter))
                     .Skip(pageSize * page)
                     .Take(pageSize).ToListAsync(),
-                    totalCount = _context.Product.Where(product => product.Name
+                    TotalCount = _context.Product.Where(product => product.Name
                     .Contains(searchParameter)).Count()
                 });
             }
     
-            return Ok(new {
-                data = await _context.Product.Skip(pageSize * page).Take(pageSize).ToListAsync(),
-                totalCount = _context.Product.Count()
+            return Ok(new ProductListResponse{
+                Data = await _context.Product.Skip(pageSize * page).Take(pageSize).ToListAsync(),
+                TotalCount = _context.Product.Count()
             });
         }
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(string id)
