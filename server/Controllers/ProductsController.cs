@@ -28,7 +28,7 @@ namespace server.Controllers
                     .Skip(pageSize * page)
                     .Take(pageSize).ToListAsync(),
                     TotalCount = _context.Product.Where(product => product.Type == filter)
-                    .Where(product => product.Name.Contains(filter)).Count()
+                    .Where(product => product.Name.Contains(searchParameter)).Count()
                 });
             }
 

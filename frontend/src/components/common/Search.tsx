@@ -1,14 +1,27 @@
-import { useRef, useState } from "react";
+import { KeyboardEvent , useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-const Search = () => {
+const search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [searchValue, setSearchValue] = useState(searchParams.get("searchParameter") || "");
+  
+  const handleChange = (event: KeyboardEvent<HTMLInputElement> ) => {
+    const target = event.target as HTMLInputElement;
+    if (event.key == "Enter")
+    {
+      searchParams.set("searchParameter", (target.value).toString());
+      setSearchParams(searchParams)
+    }
+  }
 
-  return (<input
-    onChange={(e) => setSearchParams({"searchParameter": (e.target.value).toString()})} 
+  return (
+  <input
+    onChange={(event) => setSearchValue(event.target.value)}
+    onKeyDown={(event) => handleChange(event)} 
     type="text"
-    value={searchParams.get("searchParameter")  || ""}
+    value={searchValue}
   />);
 };
 
-export default Search;
+export default search;
+

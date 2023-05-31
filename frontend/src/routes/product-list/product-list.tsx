@@ -5,6 +5,7 @@ import { IProduct, ProductResponse } from '../../types/types';
 import { fetchProducts } from '../../services/ApiCalls';
 import ProductItem from '../../components/common/product-item';
 import Search from '../../components/common/Search';
+import Filter from '../../components/common/Filter';
 
 const ProductList = () => {
   const [{data, totalCount }, setProducts] = useState<ProductResponse>({
@@ -16,10 +17,10 @@ const ProductList = () => {
 
   useEffect(() => {
     fetchingProducts();
-  }, [page, searchParams.get("searchParameter")]);
+  }, [page, searchParams.get("searchParameter"), searchParams.get("filter")]);
 
   const fetchingProducts = async ( ) => {
-    const res = await fetchProducts(page, searchParams.get("searchParameter")  || "");
+    const res = await fetchProducts(page, searchParams.get("searchParameter")  || "", searchParams.get("filter")  || "");
     setProducts(res);  
   };
 
@@ -33,7 +34,7 @@ const ProductList = () => {
     <section>
       <div className='products-details'>
         <Search />
-        <div>filter</div>
+        <Filter /> 
         <p>{totalCount} products</p>
       </div>
       <section className='products-container'>
