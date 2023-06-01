@@ -612,4 +612,7 @@ using server.Models;
         );
     }
         public DbSet<server.Models.Product> Product { get; set; } = default!;
+        public DbSet<server.Models.Cart> Cart { get; set; } = default!;
+        public DbSet<server.Models.CartItem> CartItem { get; set; } = default!;
+        public DbSet<server.Models.Order> Orders { get; set; } = default!;
     }
