@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import './product-list.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { IProduct, ProductResponse } from '../../types/types';
+import { IProduct, IProductResponse } from '../../types/types';
 import { fetchCategories, fetchProducts } from '../../services/ApiCalls';
 import ProductItem from '../../components/common/product-item';
 import Search from '../../components/common/Search';
 import Filter from '../../components/common/Filter';
 
 const ProductList = () => {
-  const [{data, totalCount }, setProducts] = useState<ProductResponse>({
+  const [{data, totalCount }, setProducts] = useState<IProductResponse>({
     data: [],
     totalCount: 1
   });

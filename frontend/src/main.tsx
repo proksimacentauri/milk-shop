@@ -13,6 +13,7 @@ import ProductList from './routes/product-list/product-list.tsx';
 import RootLayout from './routes/rootlayout.tsx';
 import Checkout from './routes/checkout/checkout.tsx';
 import ProductPage from './routes/product-page/product-page.tsx';
+import CartProvider from './cart/CartProvider.tsx';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<RootLayout />}>
@@ -26,6 +27,8 @@ const router = createBrowserRouter(createRoutesFromElements(
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} fallbackElement={'loading'} />
+    <CartProvider>
+      <RouterProvider router={router} fallbackElement={'loading'} />
+    </CartProvider>
   </React.StrictMode>,
 )

@@ -1,21 +1,24 @@
 
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { fetchProduct, orderProduct } from '../../services/ApiCalls';
-import { IProduct } from '../../types/types';
-import { useEffect, useState } from 'react';
+import { CartContextType, IProduct } from '../../types/types';
+import { useContext, useEffect, useState } from 'react';
 import milkImg from "../../assets/milk.png";
 import './product-page.css';
 import Slider from '../../components/common/slider';
+import { CartContext } from '../../cart/CartProvider';
 
 const ProductPage = () => {
-  const [{name, description, type, storage}, setProduct] = useState<IProduct>({} as IProduct);
+  const { cart, addItem } = useContext(CartContext) as CartContextType;
+  const [product, setProduct] = useState<IProduct>({} as IProduct);
   const [orderQuantity, setOrderQuantity] = useState(0);
+  const { name, description, type, storage} = product;
   const navigate = useNavigate();
   const { productId } = useParams();
   useEffect(() => {
     fetchingProducts();
   }, []);
-
+  
   const fetchingProducts = async () => {
     const data = await fetchProduct(productId as string);
     console.log(data);
@@ -23,8 +26,8 @@ const ProductPage = () => {
   };
 
   const handleSubmit = async () => {
-    const res = await orderProduct(productId as string, orderQuantity);
-    setProduct(res);
+    const res = await addItem(cart.cartId, productId as string, orderQuantity);
+    setProduct({...product, storage: storage - orderQuantity});
   }
 
   return (

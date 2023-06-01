@@ -92,6 +92,18 @@ namespace server.Controllers
         public async Task<IActionResult> AddToCart(string cartId, string productId, int quantity)
         {
             // Create new CartItem
+            var product = await _context.Product.FindAsync(productId);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            if (quantity > product.Storage || quantity == 0) 
+            {
+                return BadRequest();
+            }
+
             var cartItem = new CartItem
             {
                 ItemId = Guid.NewGuid().ToString(),

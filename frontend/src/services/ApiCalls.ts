@@ -1,7 +1,7 @@
 import axios from "axios"
-import { IProduct, ProductResponse } from "../types/types";
+import { ICart, IProduct, IProductResponse } from "../types/types";
 
-export const fetchProducts : (page: number, searchParameter: string, filter : string) => Promise<ProductResponse> = async (page: number, searchParameter = "", filter : string)  => {
+export const fetchProducts : (page: number, searchParameter: string, filter : string) => Promise<IProductResponse> = async (page: number, searchParameter = "", filter : string)  => {
     let url = `http://localhost:5163/api/Products?page=${page}`;
     if (searchParameter != "") {
         url += `&searchParameter=${searchParameter}`;
@@ -23,7 +23,17 @@ export const fetchProduct : (id : string) => Promise<IProduct> = async (id : str
     return response.data;
 }
 
-export const orderProduct : (id : string, quantity: number) => Promise<IProduct> = async (id : string, quantity: number) => {
-    const response = await axios.patch(`http://localhost:5163/api/Products/${id}?quantity=${quantity}`);
+export const createCart : () => Promise<ICart> = async () => {
+    const response = await axios.post(`http://localhost:5163/api/Carts`);
+    return response.data;
+}
+
+export const getCart : (cartId : string) => Promise<ICart> = async (cartId : string) => {
+    const response = await axios.get(`http://localhost:5163/api/Carts/${cartId}`);
+    return response.data;
+}
+
+export const orderProduct : (cartId : string, productId : string, quantity: number) => Promise<IProduct> = async (cartId : string, productId : string, quantity: number) => {
+    const response = await axios.post(`http://localhost:5163/api/Carts/${cartId}?productId=${productId}&quantity=${quantity}`);
     return response.data;
 }
