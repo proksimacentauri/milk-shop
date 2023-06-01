@@ -1,9 +1,11 @@
 import { SyntheticEvent } from "react";
 import { useSearchParams } from "react-router-dom";
 
-const Categories = ["Cashew milk", "Pea milk", "Walnut milk"];
 
-const Filter = () => {
+export interface IFilterProps {
+  categories: string[]
+}
+const Filter = ({categories} : IFilterProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
     
   const handleChange = (value : string) => {
@@ -16,7 +18,7 @@ const Filter = () => {
   }
 
   return (<div>
-    {Categories.map(category => (<button onClick={() => handleChange(category)}>{category}</button>))}
+    {categories.map(category => (<button onClick={() => handleChange(category)}>{category}</button>))}
   </div>);
 };
 

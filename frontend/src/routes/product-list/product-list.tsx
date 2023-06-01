@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './product-list.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { IProduct, ProductResponse } from '../../types/types';
-import { fetchProducts } from '../../services/ApiCalls';
+import { fetchCategories, fetchProducts } from '../../services/ApiCalls';
 import ProductItem from '../../components/common/product-item';
 import Search from '../../components/common/Search';
 import Filter from '../../components/common/Filter';
@@ -12,16 +12,26 @@ const ProductList = () => {
     data: [],
     totalCount: 1
   });
+  const [categories, setCategories] = useState<string[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState(Number(searchParams.get("page")) || 0);
+
+  useEffect(() => {
+    fetchingCategories();
+  }, []);
 
   useEffect(() => {
     fetchingProducts();
   }, [page, searchParams.get("searchParameter"), searchParams.get("filter")]);
 
+  const fetchingCategories = async ( ) => {
+const responseOfCategories = await fetchCategories();
+    setCategories(responseOfCategories);
+  };
+
   const fetchingProducts = async ( ) => {
-    const res = await fetchProducts(page, searchParams.get("searchParameter")  || "", searchParams.get("filter")  || "");
-    setProducts(res);  
+    const resonseOfProducts = await fetchProducts(page, searchParams.get("searchParameter")  || "", searchParams.get("filter")  || "");
+    setProducts(resonseOfProducts);
   };
 
   const next = (pageDirection: number) => {
@@ -34,7 +44,7 @@ const ProductList = () => {
     <section>
       <div className='products-details'>
         <Search />
-        <Filter /> 
+        <Filter categories={categories} /> 
         <p>{totalCount} products</p>
       </div>
       <section className='products-container'>

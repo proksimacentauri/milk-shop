@@ -50,6 +50,11 @@ namespace server.Controllers
             });
         }
 
+        [HttpGet("category")]
+        public async Task<IActionResult> GetProductCategories()
+        {   
+            return Ok(await _context.Product.Select(product => product.Type).Distinct().ToListAsync());
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(string id)

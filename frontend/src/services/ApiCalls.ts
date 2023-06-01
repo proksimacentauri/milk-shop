@@ -13,6 +13,11 @@ export const fetchProducts : (page: number, searchParameter: string, filter : st
     return response.data;
 }
 
+export const fetchCategories : () => Promise<string[]> = async ()  => {
+    const response = await axios.get(`http://localhost:5163/api/Products/category`);
+    return response.data;
+}
+
 export const fetchProduct : (id : string) => Promise<IProduct> = async (id : string) => {
     const response = await axios.get(`http://localhost:5163/api/Products/${id}`);
     return response.data;
