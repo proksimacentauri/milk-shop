@@ -21,6 +21,13 @@ namespace server.Controllers
             _context = context;
         }
 
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Cart>>> GetCarts()
+        {
+            return await _context.Cart.ToListAsync();
+        }
+        
         [HttpGet("{cartId}")]
         public async Task<ActionResult<CartResponse>> GetCart(string cartId)
         {
@@ -44,10 +51,10 @@ namespace server.Controllers
                 CartId = Guid.NewGuid().ToString(),
                 CartItems = new List<CartItem>() {}
             };
-            _context.Cart.Add(newCart);
+            var result = _context.Cart.Add(newCart).Entity;
             await _context.SaveChangesAsync();
         
-            return CreatedAtAction("GetCart", new { id = newCart.CartId }, newCart);
+            return CreatedAtAction(nameof(CreateCart), new { id = result.CartId }, result);
         }
 
         [HttpPost("{cartId}/Order")]
