@@ -92,21 +92,5 @@ namespace server.Controllers
            
             return Ok(product);
         }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(string id, Product product)
-        {
-            if (id != product.ProductId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(product).State = EntityState.Modified;
-
-            await _context.SaveChangesAsync();
-           
-            return NoContent();
-        }
-
     }
 }

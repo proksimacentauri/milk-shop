@@ -21,16 +21,10 @@ namespace server.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Cart>>> GetCarts()
+        [HttpGet("{cartId}")]
+        public async Task<ActionResult<CartResponse>> GetCart(string cartId)
         {
-            return await _context.Cart.ToListAsync();
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CartResponse>> GetCart(string id)
-        {
-            var cart = await _context.Cart.Include(x => x.CartItems).ThenInclude(x => x.Product).SingleOrDefaultAsync(x => x.CartId == id);
+            var cart = await _context.Cart.Include(x => x.CartItems).ThenInclude(x => x.Product).SingleOrDefaultAsync(x => x.CartId == cartId);
             
             if (cart == null)
             {
@@ -131,11 +125,6 @@ namespace server.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(cartItem);
-        }
-
-        private bool CartExists(string id)
-        {
-            return (_context.Cart?.Any(e => e.CartId == id)).GetValueOrDefault();
         }
     }
 }
