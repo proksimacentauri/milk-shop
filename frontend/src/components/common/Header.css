@@ -2,7 +2,7 @@
     margin: 0 auto;
     padding: 0 40px;
     background-color: white;
-    font-size: 18px;
+    font-size: 16px;
     height: 80px;
     display: flex;
     justify-content: space-between;
@@ -13,4 +13,21 @@
 
 .header-cartlink {
   align-self: center;
+  position: relative;
+}
+
+.header-cart__qty {
+  position: absolute;
+  left: 10px;
+  width: 20px;
+  height: 20px;
+  top: 10px;
+  font-size: 10px;
+  background: black;
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

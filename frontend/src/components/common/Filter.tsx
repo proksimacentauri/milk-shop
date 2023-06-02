@@ -1,4 +1,4 @@
-import { SyntheticEvent } from "react";
+import "./Filter.css";
 import { useSearchParams } from "react-router-dom";
 
 
@@ -7,9 +7,9 @@ export interface IFilterProps {
 }
 const Filter = ({categories} : IFilterProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
-    
+
   const handleChange = (value : string) => {
-    if (searchParams.get("filter")) {
+    if (searchParams.get("filter") == value) {
         searchParams.delete("filter");
     } else {
         searchParams.set("filter", (value).toString());
@@ -18,7 +18,7 @@ const Filter = ({categories} : IFilterProps) => {
   }
 
   return (<div>
-    {categories.map(category => (<button onClick={() => handleChange(category)}>{category}</button>))}
+    {categories.map(category => (<button className={searchParams.get("filter") == category? "activeButton" : undefined} onClick={() => handleChange(category)}>{category}</button>))}
   </div>);
 };
 

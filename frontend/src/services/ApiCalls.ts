@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ICart, IProduct, IProductResponse } from "../types/types";
+import { ICart, IOrder, IProduct, IProductResponse } from "../types/types";
 
 export const fetchProducts : (page: number, searchParameter: string, filter : string) => Promise<IProductResponse> = async (page: number, searchParameter = "", filter : string)  => {
     let url = `http://localhost:5163/api/Products?page=${page}`;
@@ -33,7 +33,13 @@ export const getCart : (cartId : string) => Promise<ICart> = async (cartId : str
     return response.data;
 }
 
-export const orderProduct : (cartId : string, productId : string, quantity: number) => Promise<IProduct> = async (cartId : string, productId : string, quantity: number) => {
+export const addToCart : (cartId : string, productId : string, quantity: number) => Promise<IProduct> = async (cartId : string, productId : string, quantity: number) => {
     const response = await axios.post(`http://localhost:5163/api/Carts/${cartId}?productId=${productId}&quantity=${quantity}`);
+    return response.data;
+}
+
+
+export const orderProduct : (cartId : string) => Promise<IOrder> = async (cartId : string) => {
+    const response = await axios.post(`http://localhost:5163/api/Carts/${cartId}/Order`);
     return response.data;
 }

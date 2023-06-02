@@ -56,7 +56,7 @@ namespace server.Controllers
             return CreatedAtAction("GetCart", new { id = newCart.CartId }, newCart);
         }
 
-        [HttpPost("/{cartId}/Order")]
+        [HttpPost("{cartId}/Order")]
         public async Task<ActionResult<Cart>> PlaceOrder(string cartId)
         {
             var cart = await _context.Cart.Include(x => x.CartItems).ThenInclude(x => x.Product).SingleOrDefaultAsync(x => x.CartId == cartId);

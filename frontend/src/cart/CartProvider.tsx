@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { ICart } from "../types/types";
-import { createCart, getCart, orderProduct } from "../services/ApiCalls";
+import { createCart, getCart, addToCart, orderProduct } from "../services/ApiCalls";
 
 interface CartProviderProps {
     children: React.ReactNode
@@ -9,7 +9,10 @@ interface CartProviderProps {
 export const CartContext = createContext({});
 
 const CartProvider = ({ children }: CartProviderProps) => {
-    const [cart, setCart] = useState<ICart>({} as ICart);
+    const [cart, setCart] = useState<ICart>({
+        cartId: "",
+        cartItems: []
+    });
 
     useEffect(() => {
         if (!localStorage.getItem('cart')) {
@@ -31,12 +34,17 @@ const CartProvider = ({ children }: CartProviderProps) => {
     }
 
     const addItem = async (cartId:string, productId : string, quantity : number) => {
-        var res = await orderProduct(cartId, productId, quantity);
+        await addToCart(cartId, productId, quantity);
         fetchCart(cartId);
     }
 
+    const placeOrder = async (cartId:string) => {
+        await orderProduct(cartId);
+        await creatingCart();
+    }
+
     return (
-        <CartContext.Provider value={{cart, fetchCart, addItem}}>
+        <CartContext.Provider value={{cart, fetchCart, addItem, placeOrder}}>
             {children}
         </CartContext.Provider>
     );
