@@ -1,0 +1,11 @@
+.checkout--order-btn {
+    display: flex;
+    margin: 10px;
+    color: white;
+    background-color: black;
+    transition: 200ms ease-in;
+}
+
+.checkout--order-btn:hover {
+    background-color: #d689a4;
+}

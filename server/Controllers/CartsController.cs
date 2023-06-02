@@ -118,8 +118,8 @@ namespace server.Controllers
             return Ok(cartItem);
         }
 
-        [HttpDelete("{itemId}")]
-        public async Task<IActionResult> RemoveFromCart(string itemId)
+        [HttpDelete("{cartId}/Item/{itemId}")]
+        public async Task<IActionResult> RemoveFromCart(string cartId, string itemId)
         {
             var cartItem = await _context.CartItem.FindAsync(itemId);
             if (cartItem == null)

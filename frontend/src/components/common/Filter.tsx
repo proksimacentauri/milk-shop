@@ -18,7 +18,7 @@ const Filter = ({categories} : IFilterProps) => {
   }
 
   return (<div>
-    {categories.map(category => (<button className={searchParams.get("filter") == category? "activeButton" : undefined} onClick={() => handleChange(category)}>{category}</button>))}
+    {categories.map(category => (<button key={category} className={searchParams.get("filter") == category? "activeButton" : undefined} onClick={() => handleChange(category)}>{category}</button>))}
   </div>);
 };
 

@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { ICart } from "../types/types";
-import { createCart, getCart, addToCart, orderProduct } from "../services/ApiCalls";
+import { createCart, getCart, addToCart, orderProduct, deleteItemFromCart } from "../services/ApiCalls";
 
 interface CartProviderProps {
     children: React.ReactNode
@@ -38,13 +38,21 @@ const CartProvider = ({ children }: CartProviderProps) => {
         fetchCart(cartId);
     }
 
+    const deleteItem =async (cartId: string, itemId : string) => {
+        await deleteItemFromCart(cartId, itemId);
+        setCart(prevCart => ({
+            ...prevCart,
+            cartItems: prevCart.cartItems.filter(item => item.itemId !== itemId),
+        }))
+    }
+
     const placeOrder = async (cartId:string) => {
         await orderProduct(cartId);
         await creatingCart();
     }
 
     return (
-        <CartContext.Provider value={{cart, fetchCart, addItem, placeOrder}}>
+        <CartContext.Provider value={{cart, fetchCart, addItem, deleteItem, placeOrder}}>
             {children}
         </CartContext.Provider>
     );

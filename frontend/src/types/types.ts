@@ -34,4 +34,5 @@ export type CartContextType = {
     cart: ICart;
     addItem: (cartId:string, productId : string, quantity : number) => void;
     placeOrder:(cartId:string) => void;
+    deleteItem: (cartId:string, itemId : string) => void;
 };

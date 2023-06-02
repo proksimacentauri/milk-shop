@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ICart, IOrder, IProduct, IProductResponse } from "../types/types";
+import { ICart, ICartItem, IOrder, IProduct, IProductResponse } from "../types/types";
 
 export const fetchProducts : (page: number, searchParameter: string, filter : string) => Promise<IProductResponse> = async (page: number, searchParameter = "", filter : string)  => {
     let url = `http://localhost:5163/api/Products?page=${page}`;
@@ -38,8 +38,12 @@ export const addToCart : (cartId : string, productId : string, quantity: number)
     return response.data;
 }
 
-
 export const orderProduct : (cartId : string) => Promise<IOrder> = async (cartId : string) => {
     const response = await axios.post(`http://localhost:5163/api/Carts/${cartId}/Order`);
+    return response.data;
+}
+
+export const deleteItemFromCart : (cartId : string, itemId : string) => Promise<ICartItem> = async (cartId : string, itemId : string) => {
+    const response = await axios.delete(`http://localhost:5163/api/Carts/${cartId}/Item/${itemId}`);
     return response.data;
 }
